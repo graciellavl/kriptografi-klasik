@@ -2,15 +2,16 @@ from email.policy import default
 import PySimpleGUI as sg                        # Part 1 - The import
 from pathlib import Path
 from playfair import playfair_cipher_decrypt, playfair_cipher_encrypt
-from playfair1 import *
+from vigenere import *
 
 sg.theme('DarkAmber')
 
 # Define the window's contents
 layout = [[sg.Text("Welcome")],     # Part 2 - The Layout
-          [sg.Radio('Vigenere', "Cipher", default=False),
+          [sg.Radio('Vigenere Basic', "Cipher", default=False),
+           sg.Radio('Vigenere Autokey', "Cipher", default=False),
            sg.Radio('Extended Vigenere', "Cipher", default=False),
-           sg.Radio('Playfair', "Cipher", default=False),
+           sg.Radio('Playfair Basic', "Cipher", default=False),
            sg.Radio('Engima', "Cipher", default=False)],
           [
     sg.Input(key='-INPUT-'),
@@ -45,20 +46,31 @@ while True:
                 print("Error: ", e)
 
     if values[0]:
-        print("Vigenere")
+        print("Vigenere Basic")
         if event == "Encrypt":
-            print("Encrypt")
+            cipher = vigenere(values["KEY"], values["PLAINTEXT"], True, False)
+            window.Element(key='CIPHERTEXT').Update(cipher)
         elif event == "Decrypt":
-            print("Decrypt")
+            plain = vigenere(values["KEY"], values["CIPHERTEXT"], False, False)
+            window.Element(key='PLAINTEXT').Update(plain)
 
-    elif values[1]:
+    if values[1]:
+        print("Vigenere Autokey")
+        if event == "Encrypt":
+            cipher = vigenere(values["KEY"], values["PLAINTEXT"], True, True)
+            window.Element(key='CIPHERTEXT').Update(cipher)
+        elif event == "Decrypt":
+            plain = vigenere(values["KEY"], values["CIPHERTEXT"], False, True)
+            window.Element(key='PLAINTEXT').Update(plain)
+
+    elif values[2]:
         print("Extended Vigenere")
         if event == "Encrypt":
             print("Encrypt")
         elif event == "Decrypt":
             print("Decrypt")
 
-    elif values[2]:
+    elif values[3]:
         print("Playfair Cipher")
         if event == "Encrypt":
             cipher = playfair_cipher_encrypt(values["KEY"], values["PLAINTEXT"])
@@ -68,7 +80,7 @@ while True:
             plain = playfair_cipher_decrypt(values["KEY"], values["CIPHERTEXT"])
             window.Element(key='PLAINTEXT').Update(plain)
 
-    elif values[3]:
+    elif values[4]:
         print("Engima")
         if event == "Encrypt":
             print("Encrypt")

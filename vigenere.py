@@ -25,30 +25,38 @@ def vigenere (key, text, isencrypt, isautokey):
     if (len(key_clean) == 0):
         return ''
     
-    # Membuat kunci baik berulang maupun autokey
+    # Membuat kunci untuk berulang
     if (len(key_clean) < len(text_clean)):
         selisih = len(text_clean) - len(key_clean)
-        if isautokey:
-            for i in range (0, selisih):
-                key_clean += text_clean[i]
-        else:
+
+        if not(isautokey):
             for i in range (0, selisih):
                 key_clean += key_clean[i]
+            
+    # print(key_clean)
 
     # Enkripsi
     hasil = ''
     if (isencrypt):
+        if (isautokey):
+            for i in range (0, selisih):
+                key_clean += text_clean[i]
+
         for i in range (0, len(text_clean)):
             hasil +=  chr(((ord(text_clean[i])-65) + (ord(key_clean[i])-65))%26 + 65)
     else:
+
+        # Dekripsi
         for i in range (0, len(text_clean)):
             hasil += chr(((ord(text_clean[i])-65) - (ord(key_clean[i])-65))%26 + 65)
+            if (isautokey):
+                key_clean += chr(((ord(text_clean[i])-65) - (ord(key_clean[i])-65))%26 + 65)
     
 
     return hasil
 
 
-# print(vigenere ('kampus', 'hello', True, False))
+# print(vigenere ('halo', 'vayvay', True, True))
 
 
 
