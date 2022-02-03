@@ -4,8 +4,6 @@ from pathlib import Path
 
 sg.theme('DarkAmber')
 
-menu = ["Vigenere", "Playfair"]
-
 # Define the window's contents
 layout = [[sg.Text("Welcome")],     # Part 2 - The Layout
           [sg.Radio('Vigenere', "Cipher", default=False),
@@ -39,6 +37,8 @@ while True:
                 with open(filename, "rt", encoding='utf-8') as f:
                     text = f.read()
                 print(text)
+                window.Element(key='-PLAINTEXT-').Update(text)
+
             except Exception as e:
                 print("Error: ", e)
     
