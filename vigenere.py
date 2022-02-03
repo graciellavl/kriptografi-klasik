@@ -48,7 +48,7 @@ def vigenere (key, text, isencrypt, isautokey):
     return hasil
 
 
-print(vigenere ('kampus', 'hello', True, False))
+# print(vigenere ('kampus', 'hello', True, False))
 
 
 
