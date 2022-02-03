@@ -7,6 +7,7 @@ def vigenere (key, text, isencrypt, isautokey):
 
     text_clean = ''
     key_clean = ''
+    selisih = 0
 
     # Ambil hanya alfabet, selain itu dihilangkan
     for i in text:

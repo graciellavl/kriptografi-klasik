@@ -12,10 +12,12 @@ layout = [[sg.Text("Welcome")],     # Part 2 - The Layout
           [sg.Radio('Vigenere Basic', "Cipher", default=False),
            sg.Radio('Vigenere Autokey', "Cipher", default=False),
            sg.Radio('Extended Vigenere', "Cipher", default=False),
-           sg.Radio('Playfair Basic', "Cipher", default=False),
+           sg.Radio('Playfair', "Cipher", default=False),
            sg.Radio('Engima', "Cipher", default=False)],
           [sg.Text('_' * 80)],
-
+          [sg.Radio("Cipher tanpa spasi", "Space", default=True, key="nospace"), sg.Radio(
+              "Kelompok 5-huruf", "Space", default=False, key="5huruf")],
+          [sg.Text('_' * 80)],
           [
               sg.Text("Input File Name"),
     sg.Input(key='-INPUT-'),
@@ -48,7 +50,7 @@ while True:
             try:
                 with open(filename, "rb") as f:
                     text = f.read()
-                    
+
                 window.Element(key='PLAINTEXT').Update(text)
 
             except Exception as e:
@@ -71,7 +73,11 @@ while True:
         print("Vigenere Basic")
         if event == "Encrypt":
             cipher = vigenere(values["KEY"], values["PLAINTEXT"], True, False)
-            window.Element(key='CIPHERTEXT').Update(cipher)
+            if (values["nospace"]):
+                window.Element(key='CIPHERTEXT').Update(cipher)
+            else:
+                temp = ' '.join([cipher[i:i+5] for i in range(0,len(cipher),5)])
+                window.Element(key='CIPHERTEXT').Update(temp)
         elif event == "Decrypt":
             plain = vigenere(values["KEY"], values["CIPHERTEXT"], False, False)
             window.Element(key='PLAINTEXT').Update(plain)
@@ -80,30 +86,52 @@ while True:
         print("Vigenere Autokey")
         if event == "Encrypt":
             cipher = vigenere(values["KEY"], values["PLAINTEXT"], True, True)
-            window.Element(key='CIPHERTEXT').Update(cipher)
+            if (values["nospace"]):
+                window.Element(key='CIPHERTEXT').Update(cipher)
+            else:
+                temp = ' '.join([cipher[i:i+5] for i in range(0,len(cipher),5)])
+                window.Element(key='CIPHERTEXT').Update(temp)
         elif event == "Decrypt":
             plain = vigenere(values["KEY"], values["CIPHERTEXT"], False, True)
-            window.Element(key='PLAINTEXT').Update(plain)
+            window.Element(key='PLAINTEXT').Update(plain if values["nospace"] else [
+                plain[i:i+5] for i in range(0, len(plain), 5)])
 
     elif values[2]:
         print("Extended Vigenere")
         if event == "Encrypt":
             if (values["-INPUT-"]):
-                cipher_ext_vig = extended_vigenere_encrypt(bytes(values["KEY"], "utf-8"), text)
+                cipher_ext_vig = extended_vigenere_encrypt(
+                    bytes(values["KEY"], "utf-8"), text)
                 with open(outputfile, 'wb') as f:
                     f.write(cipher_ext_vig)
+            else:
+                cipher_ext_vig = extended_vigenere_encrypt(
+                    bytes(values["KEY"], "utf-8"), bytes(values["PLAINTEXT"], "utf-8"))
+                window.Element(key='CIPHERTEXT').Update(cipher_ext_vig)
+
         elif event == "Decrypt":
             if (values["-INPUT-"]):
-                plain_ext_vig = extended_vigenere_decrypt(bytes(values["KEY"], "utf-8"), text)
+                plain_ext_vig = extended_vigenere_decrypt(
+                    bytes(values["KEY"], "utf-8"), text)
                 with open(outputfile, 'wb') as f:
                     f.write(plain_ext_vig)
+            else:
+                plain_ext_vig = extended_vigenere_encrypt(
+                    bytes(values["KEY"], "utf-8"), bytes(values["CIPHERTEXT"], "utf-8"))
+                window.Element(key='PLAINTEXT').Update(
+                    plain_ext_vig if values["nospace"] else [
+                        plain_ext_vig[i:i+5] for i in range(0, len(plain_ext_vig), 5)])
 
     elif values[3]:
         print("Playfair Cipher")
         if event == "Encrypt":
             cipher = playfair_cipher_encrypt(
                 values["KEY"], values["PLAINTEXT"])
-            window.Element(key='CIPHERTEXT').Update(cipher)
+            if (values["nospace"]):
+                window.Element(key='CIPHERTEXT').Update(cipher)
+            else:
+                temp = ' '.join([cipher[i:i+5] for i in range(0,len(cipher),5)])
+                window.Element(key='CIPHERTEXT').Update(temp)
 
         elif event == "Decrypt":
             plain = playfair_cipher_decrypt(
