@@ -25,7 +25,7 @@ layout = [[sg.Text("Welcome")],     # Part 2 - The Layout
 
 # Create the window
 # Part 3 - Window Defintion
-window = sg.Window('Kripyografi Klasik', layout)
+window = sg.Window('Kriptografi Klasik', layout)
 
 while True:
     # Display and interact with the Window
