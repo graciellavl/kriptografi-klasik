@@ -2,7 +2,6 @@ from email.policy import default
 import PySimpleGUI as sg                        # Part 1 - The import
 from pathlib import Path
 from playfair import playfair_cipher_decrypt, playfair_cipher_encrypt
-from playfair1 import *
 
 sg.theme('DarkAmber')
 
