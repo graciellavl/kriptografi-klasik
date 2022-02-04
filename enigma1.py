@@ -52,7 +52,7 @@ class Rotor:
         right_side_val = idx if self.reflector else self.wheel[idx]
         return self.wheel_idx.index(right_side_val)
 
-def enigma(key=None, text='test'):
+def enigma(key, text):
     # key       : kunci, berupa 3 huruf alfabet
     # text      : plaintext apabila enkripsi, ciphertext apabila dekripsi
 
@@ -116,8 +116,8 @@ def enigma(key=None, text='test'):
 
     return hasil
 
-print(enigma('ABC', 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'))
-print(enigma('ABC', 'TWGBOJREOCPGFNSPEQTIZPCSUFGMSIFGWERVTRTDEDPGTIYEPSZCOMYIHIWDYQO'))
+# print(enigma('ABC', 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'))
+# print(enigma('ABC', 'TWGBOJREOCPGFNSPEQTIZPCSUFGMSIFGWERVTRTDEDPGTIYEPSZCOMYIHIWDYQO'))
 
-print(enigma('ASD', 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'))
-print(enigma('ASD', 'TWGBOJREOCPGFNSPEQTIZPCSUFGMSIFGWERVTRTDEDPGTIYEPSZCOMYIHIWDYQO'))
+# print(enigma('ASD', 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'))
+# print(enigma('ASD', 'BTXNKOJMXJTMGXVPXFBPNIPZDZIGSZDQUMLOYRIGMJXZNPVGSDTPSFQMWLJSDYW'))
