@@ -107,29 +107,32 @@ while True:
 
     elif values[2]:
         print("Extended Vigenere")
-        if event == "Encrypt":
-            if (values["-INPUT-"]):
-                cipher_ext_vig = extended_vigenere_encrypt(
-                    bytes(values["KEY"], "utf-8"), text)
-                with open(outputfile, 'wb') as f:
-                    f.write(cipher_ext_vig)
-            else:
-                cipher_ext_vig = extended_vigenere_encrypt(
-                    bytes(values["KEY"], "utf-8"), bytes(values["PLAINTEXT"], "utf-8"))
-                window.Element(key='CIPHERTEXT').Update(cipher_ext_vig)
+        if (len(values['KEY']) != 0):
+            if event == "Encrypt":
+                if (values["-INPUT-"]):
+                    cipher_ext_vig = extended_vigenere_encrypt(
+                        bytes(values["KEY"], "utf-8"), text)
+                    with open(outputfile, 'wb') as f:
+                        f.write(cipher_ext_vig)
+                else:
+                    cipher_ext_vig = extended_vigenere_encrypt(
+                        bytes(values["KEY"], "latin-1"), bytes(values["PLAINTEXT"], "latin-1"))
+                    cipher_ext_vig = str(cipher_ext_vig, 'latin-1')
+                    window.Element(key='CIPHERTEXT').Update(cipher_ext_vig)
 
-        elif event == "Decrypt":
-            if (values["-INPUT-"]):
-                plain_ext_vig = extended_vigenere_decrypt(
-                    bytes(values["KEY"], "utf-8"), text)
-                with open(outputfile, 'wb') as f:
-                    f.write(plain_ext_vig)
-            else:
-                plain_ext_vig = extended_vigenere_encrypt(
-                    bytes(values["KEY"], "utf-8"), bytes(values["CIPHERTEXT"], "utf-8"))
-                window.Element(key='PLAINTEXT').Update(
-                    plain_ext_vig if values["nospace"] else [
-                        plain_ext_vig[i:i+5] for i in range(0, len(plain_ext_vig), 5)])
+            elif event == "Decrypt":
+                if (values["-INPUT-"]):
+                    plain_ext_vig = extended_vigenere_decrypt(
+                        bytes(values["KEY"], "utf-8"), text)
+                    with open(outputfile, 'wb') as f:
+                        f.write(plain_ext_vig)
+                else:
+                    plain_ext_vig = extended_vigenere_decrypt(
+                        bytes(values["KEY"], "latin-1"), bytes(values["CIPHERTEXT"], "latin-1"))
+                    plain_ext_vig = str(plain_ext_vig, 'latin-1')
+                    window.Element(key='PLAINTEXT').Update(
+                        plain_ext_vig if values["nospace"] else [
+                            plain_ext_vig[i:i+5] for i in range(0, len(plain_ext_vig), 5)])
 
     elif values[3]:
         print("Playfair Cipher")
