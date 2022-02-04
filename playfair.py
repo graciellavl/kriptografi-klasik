@@ -1,8 +1,5 @@
 
 # Function to create key matrix
-from pydoc import plain
-
-
 def get_key_matrix(key):
     temp = []
     for char in key:
@@ -14,7 +11,7 @@ def get_key_matrix(key):
     key_matrix = [[temp[i*5+j] for j in range(5)] for i in range(5)]
     return key_matrix
 
-
+# Function to get character on matrix
 def get_char(char, key_matrix):
     for i in range(len(key_matrix)):
         for j in range(len(key_matrix[i])):
@@ -22,8 +19,6 @@ def get_char(char, key_matrix):
                 return i, j
 
 # Function to generate bigram
-
-
 def to_bigram(text):
     text = ''.join([char for char in text if char.isalpha()])
     text = text.replace('J', 'I')
@@ -48,8 +43,6 @@ def to_bigram(text):
     return bigram
 
 # Function to shift the bigram
-
-
 def shift(bigram, encrypt, key_matrix):
     row1, col1 = get_char(bigram[0], key_matrix)
     row2, col2 = get_char(bigram[1], key_matrix)
@@ -86,8 +79,6 @@ def shift(bigram, encrypt, key_matrix):
     return shifted
 
 # Encrypt
-
-
 def playfair_cipher_encrypt(key, text):
     plaintext = to_bigram(text.upper())
     key_matrix = get_key_matrix(key.upper())
@@ -98,8 +89,6 @@ def playfair_cipher_encrypt(key, text):
     return ciphertext
 
 # Decrypt
-
-
 def playfair_cipher_decrypt(key, text):
     ciphertext = to_bigram(text.upper())
     key_matrix = get_key_matrix(key.upper())

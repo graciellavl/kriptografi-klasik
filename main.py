@@ -2,6 +2,7 @@ from email.policy import default
 import PySimpleGUI as sg                        # Part 1 - The import
 from pathlib import Path
 from extended_vigenere import extended_vigenere_decrypt, extended_vigenere_encrypt
+from otp import otp_decrypt, otp_encrypt
 from playfair import playfair_cipher_decrypt, playfair_cipher_encrypt
 from vigenere import *
 from enigma import *
@@ -9,15 +10,18 @@ from enigma import *
 sg.theme('DarkAmber')
 
 # Define the window's contents
-layout = [[sg.Text("Welcome")],     # Part 2 - The Layout
+layout = [[sg.Text("Welcome, please select a cipher method!")],     # Part 2 - The Layout
           [sg.Radio('Vigenere Basic', "Cipher", default=False),
            sg.Radio('Vigenere Autokey', "Cipher", default=False),
            sg.Radio('Extended Vigenere', "Cipher", default=False),
            sg.Radio('Playfair', "Cipher", default=False),
-           sg.Radio('Engima', "Cipher", default=False)],
+           sg.Radio('Engima', "Cipher", default=False),
+           sg.Radio('OTP', "Cipher", default=False)
+           ],
           [sg.Text('_' * 80)],
-          [sg.Radio("Cipher tanpa spasi", "Space", default=True, key="nospace"), sg.Radio(
-              "Kelompok 5-huruf", "Space", default=False, key="5huruf")],
+          [sg.Text("Cipher output type")],
+          [sg.Radio("No spasi", "Space", default=True, key="nospace"), sg.Radio(
+              "5-huruf", "Space", default=False, key="5huruf")],
           [sg.Text('_' * 80)],
           [
               sg.Text("Input File Name"),
@@ -26,9 +30,11 @@ layout = [[sg.Text("Welcome")],     # Part 2 - The Layout
 ],
     [sg.Text("Output File Name"), sg.Input(key='OUTPUTFILE')],
     [sg.Text('_' * 80)],
-    [sg.Text("Plain Text"), sg.Input(key='PLAINTEXT')],
-    [sg.Text("Key"), sg.Input(key='KEY')],
-    [sg.Text("Cipher Text"), sg.Input(key='CIPHERTEXT')],
+    [sg.Text("Plain Text  "), sg.Multiline(size=(43, 3), key='PLAINTEXT')],
+    [sg.Text("Key           "), sg.Input(key='KEY')],
+    [sg.Text("Key File Name (for OTP)"), sg.Input(key='KEYFILE'), sg.FileBrowse(
+        file_types=(("TXT Files", "*.txt"), ("ALL Files", "*.*"))), ],
+    [sg.Text("Cipher Text"), sg.Multiline(size=(43, 3), key='CIPHERTEXT')],
     [sg.Button('Encrypt'), sg.Button('Decrypt'), sg.Button('Save Plain to File'), sg.Button('Save Cipher to File'), sg.Button('RESET')]]
 
 # Create the window
@@ -77,7 +83,8 @@ while True:
             if (values["nospace"]):
                 window.Element(key='CIPHERTEXT').Update(cipher)
             else:
-                temp = ' '.join([cipher[i:i+5] for i in range(0,len(cipher),5)])
+                temp = ' '.join([cipher[i:i+5]
+                                for i in range(0, len(cipher), 5)])
                 window.Element(key='CIPHERTEXT').Update(temp)
         elif event == "Decrypt":
             plain = vigenere(values["KEY"], values["CIPHERTEXT"], False, False)
@@ -90,7 +97,8 @@ while True:
             if (values["nospace"]):
                 window.Element(key='CIPHERTEXT').Update(cipher)
             else:
-                temp = ' '.join([cipher[i:i+5] for i in range(0,len(cipher),5)])
+                temp = ' '.join([cipher[i:i+5]
+                                for i in range(0, len(cipher), 5)])
                 window.Element(key='CIPHERTEXT').Update(temp)
         elif event == "Decrypt":
             plain = vigenere(values["KEY"], values["CIPHERTEXT"], False, True)
@@ -131,7 +139,8 @@ while True:
             if (values["nospace"]):
                 window.Element(key='CIPHERTEXT').Update(cipher)
             else:
-                temp = ' '.join([cipher[i:i+5] for i in range(0,len(cipher),5)])
+                temp = ' '.join([cipher[i:i+5]
+                                for i in range(0, len(cipher), 5)])
                 window.Element(key='CIPHERTEXT').Update(temp)
 
         elif event == "Decrypt":
@@ -146,13 +155,26 @@ while True:
             if (values["nospace"]):
                 window.Element(key='CIPHERTEXT').Update(cipher)
             else:
-                temp = ' '.join([cipher[i:i+5] for i in range(0,len(cipher),5)])
+                temp = ' '.join([cipher[i:i+5]
+                                for i in range(0, len(cipher), 5)])
                 window.Element(key='CIPHERTEXT').Update(temp)
         elif event == "Decrypt":
             plain = enigma(values["KEY"], values["CIPHERTEXT"])
             window.Element(key='PLAINTEXT').Update(plain if values["nospace"] else [
                 plain[i:i+5] for i in range(0, len(plain), 5)])
-            
+
+    elif values[5]:
+        if event == "Encrypt":
+            cipher = otp_encrypt(values["PLAINTEXT"])
+            if (values["nospace"]):
+                window.Element(key='CIPHERTEXT').Update(cipher)
+            else:
+                temp = ' '.join([cipher[i:i+5]
+                                for i in range(0, len(cipher), 5)])
+                window.Element(key='CIPHERTEXT').Update(temp)
+        elif event == "Decrypt":
+            plain = otp_decrypt(values["CIPHERTEXT"])
+            window.Element(key='PLAINTEXT').Update(plain)
 
     if event == sg.WIN_CLOSED:
         break

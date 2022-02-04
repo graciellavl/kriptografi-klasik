@@ -1,11 +1,11 @@
 def generatekey(n):
     # generate kunci dari file key.txt
 
-    with open("kriptografi-klasik/key.txt", "r") as keyin:
+    with open("key.txt", "r") as keyin:
         tmp1 = keyin.read()
         kunci = tmp1[:n]
 
-    with open("kriptografi-klasik/key.txt", "w") as keyout:
+    with open("key.txt", "w") as keyout:
         tmp2 = tmp1[n:]
         keyout.write(tmp2)
 
@@ -39,10 +39,10 @@ def otp_encrypt(text):
         hasil +=  chr(((ord(text_clean[i])-65) + (ord(key_clean[i])-65))%26 + 65)
 
     # Simpan ke file
-    with open("kriptografi-klasik/otpcipher.txt", "a") as file:
+    with open("otpcipher.txt", "a") as file:
         file.write(hasil)
 
-    with open("kriptografi-klasik/otpkey.txt", "a") as file:
+    with open("otpkey.txt", "a") as file:
         file.write(key)
 
     return hasil
@@ -50,13 +50,13 @@ def otp_encrypt(text):
 
 def otp_decrypt(text):
     try:
-        with open("kriptografi-klasik/otpcipher.txt") as file:
+        with open("otpcipher.txt") as file:
             i = file.read().index(text)
     
     except (ValueError):
         raise ValueError("Cipher tidak ditemukan")
 
-    with open("kriptografi-klasik/otpkey.txt") as file:
+    with open("otpkey.txt") as file:
         key = file.read()[i:i+len(text)]
 
     hasil = ''
