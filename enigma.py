@@ -6,14 +6,14 @@ def enigma(key, text):
     alfabet = ['A','B','C','D','E','F','G','H','I','J','K','L',
               'M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
 
-    rotor1 = ['E','K','M','F','L','G','D','Q','V','Z','N','T','O','W','Y',
-            'H','X','U','S','P','A','I','B','R','C','J']
+    rotor1 = ['U','K','P','Y','J','M','R','V','L','E','B','I','F','S','Z','C',
+            'W','G','N','X','A','H','Q','T','D','O']
 
-    rotor2 = ['A','J','D','K','S','I','R','U','X','B','L','H','W','T','M',
-            'C','Q','G','Z','N','P','Y','F','V','O','E']
+    rotor2 = ['X','T','H','M','C','Y','Z','U','N','W','O','B','F','E','V','L',
+            'D','K','J','I','G','P','S','A','Q','R']
 
-    rotor3 = ['B','D','F','H','J','L','C','P','R','T','X','V','Z','N','Y',
-            'E','I','W','G','A','K','M','U','S','Q','O']
+    rotor3 = ['X','F','S','Z','Q','B','L','T','W','R','P','G','V','U','Y','K',
+            'E','J','C','H','N','M','I','A','O','D']
 
     reflektor = ['U','K','P','Y','J','M','R','V','L','E','B','I','F','S','Z',
             'C','W','G','N','X','A','H','Q','T','D','O']
@@ -69,35 +69,33 @@ def enigma(key, text):
         pos3 = (pos3 + 1)%26
 
     
-        rotor3_1 = rotor3[(pos3 + ord(i) - 65)%26]
-        rotor2_1 = rotor2[(pos2 + ord(rotor3_1) - 65)%26]
-        rotor1_1 = rotor1[(pos1 + ord(rotor2_1) - 65)%26]
-        reflektor_1 = reflektor[(ord(rotor1_1) - 65)%26]
-        reflektor_2 = reflektor[(ord(reflektor_1) - 65)%26]
-        rotor1_2 = rotor1[(pos1 + ord(reflektor_2) - 65)%26]
-        rotor2_2 = rotor2[(pos2 + ord(rotor1_2) - 65)%26]
-        rotor3_2 = rotor3[(pos3 + ord(rotor2_2) - 65)%26]
-        
+        rotor31 = rotor3[(pos3 + ord(i) - 65)%26]
+        rotor21 = rotor2[(pos2 + ord(rotor31) - 65)%26]
+        rotor11 = rotor1[(pos1 + ord(rotor21) - 65)%26]
+        reflektor1 = reflektor[(ord(rotor11) - 65)%26]
+        reflektor2 = reflektor[(ord(reflektor1) - 65)%26]
+        rotor12 = rotor1[(pos1 + ord(reflektor2) - 65)%26]
+        rotor22 = rotor2[(pos2 + ord(rotor12) - 65)%26]
+        rotor32 = rotor3[(pos3 + ord(rotor22) - 65)%26]
 
-        print(rotor3_1)
-        print(rotor2_1)
-        print(rotor1_1)
-        print(reflektor_1)
-        print(reflektor_2)
-        print(rotor1_2)
-        print(rotor2_2)
-        print(rotor3_2)
+        # print(rotor31)
+        # print(rotor21)
+        # print(rotor11)
+        # print(reflektor1)
+        # print(reflektor2)
+        # print(rotor12)
+        # print(rotor22)
+        # print(rotor32)
 
+        # for j in range (0, len(rotor3)):
+        #     if (rotor3[j] == rotor32):
+        #         hasil += alfabet[(j-pos3)%26]
 
-        for j in range (0, len(rotor3)):
-            if (rotor3[j] == rotor3_2):
-                hasil += alfabet[j]
-
-        # hasil += rotor3_2
+        hasil += rotor32
 
     return hasil
 
-print (enigma('CAT', 'BTXQOS'))
+# print (enigma('XGD', 'z'))
 
                 
 

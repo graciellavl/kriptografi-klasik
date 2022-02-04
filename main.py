@@ -4,6 +4,7 @@ from pathlib import Path
 from extended_vigenere import extended_vigenere_decrypt, extended_vigenere_encrypt
 from playfair import playfair_cipher_decrypt, playfair_cipher_encrypt
 from vigenere import *
+from enigma import *
 
 sg.theme('DarkAmber')
 
@@ -141,9 +142,17 @@ while True:
     elif values[4]:
         print("Engima")
         if event == "Encrypt":
-            print("Encrypt")
+            cipher = enigma(values["KEY"], values["PLAINTEXT"])
+            if (values["nospace"]):
+                window.Element(key='CIPHERTEXT').Update(cipher)
+            else:
+                temp = ' '.join([cipher[i:i+5] for i in range(0,len(cipher),5)])
+                window.Element(key='CIPHERTEXT').Update(temp)
         elif event == "Decrypt":
-            print("Decrypt")
+            plain = enigma(values["KEY"], values["CIPHERTEXT"])
+            window.Element(key='PLAINTEXT').Update(plain if values["nospace"] else [
+                plain[i:i+5] for i in range(0, len(plain), 5)])
+            
 
     if event == sg.WIN_CLOSED:
         break
